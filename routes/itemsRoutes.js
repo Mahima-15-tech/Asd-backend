@@ -1,0 +1,16 @@
+const express = require("express");
+const router = express.Router();
+const itemCtrl = require("../controllers/ItemsController");
+const catCtrl = require("../controllers/masterController");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
+
+// category
+router.get("/categories", catCtrl.getCategories);
+router.post("/categories",  protect, adminOnly, catCtrl.createCategory);
+
+// items
+router.get("/items/:categoryId", itemCtrl.getItems);
+router.post("/items", protect, adminOnly, itemCtrl.createItem);
+router.put("/items/:id", protect, adminOnly, itemCtrl.updateItem);
+router.delete("/items/:id", protect, adminOnly, itemCtrl.deleteItem);
+module.exports = router;
