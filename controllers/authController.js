@@ -120,27 +120,34 @@ if (!isValidPassword(password)) {
 
   exports.login = async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, type } = req.body; 
   
-      // 🔥 username OR email support
       const user = await User.findOne({ email })
-  .select("+password")
-  .populate("roleId");
+        .select("+password")
+        .populate("roleId");
   
       if (!user) return res.status(400).json({ msg: "User not found" });
   
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return res.status(400).json({ msg: "Invalid password" });
   
+      // 🔥 ROLE CHECK (IMPORTANT)
+      if (type === "admin" && user.roleId.name !== "admin") {
+        return res.status(403).json({ msg: "Admin access only" });
+      }
+  
+      if (type === "user" && user.roleId.name !== "user") {
+        return res.status(403).json({ msg: "User access only" });
+      }
+  
       const token = jwt.sign(
         {
           id: user._id,
-          role: user.roleId.name // 🔥 FIX
+          role: user.roleId.name
         },
         process.env.JWT_SECRET
       );
   
-      // 🔥 password remove from response
       user.password = undefined;
   
       res.json({ msg: "Login success", token, user });
