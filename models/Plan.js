@@ -30,15 +30,40 @@ const planSchema = new mongoose.Schema({
     storageLimit: Number
   },
 
-  status: {
-    type: String,
-    enum: ["active", "inactive"],
-    default: "active"
-  },
+
 
   isPopular: Boolean,
-  isRecommended: Boolean
+  isRecommended: Boolean,
 
-}, { timestamps: true });
+  
+
+
+
+duration: Number,
+
+
+
+hsLookupLimit: Number,
+
+storageLimit: Number,
+
+aiQueryLimit: Number,
+
+features: [
+    String
+],
+
+status: {
+    type: String,
+    enum: [
+        "active",
+        "inactive"
+    ],
+    default: "active"
+}
+
+},
+
+ { timestamps: true });
 
 module.exports = mongoose.model("Plan", planSchema);

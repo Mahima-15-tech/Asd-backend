@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const ctrl = require("../controllers/shipmentController");
 
-// booking flow
-router.post("/step1", ctrl.saveStep1);
-router.put("/step2/:id", ctrl.saveStep2);
-router.put("/step3/:id", ctrl.saveStep3);
-router.post("/documents", ctrl.uploadDocs);
+const shipmentController = require("../controllers/shipmentController");
+const { protect } = require("../middleware/authMiddleware");
 
-// listing
-router.get("/", ctrl.getShipments);
-router.get("/stats", ctrl.getStats);
+// Existing APIs
+router.post("/step1", protect, shipmentController.saveStep1);
+router.put("/step2/:id", protect, shipmentController.saveStep2);
+router.put("/step3/:id", protect, shipmentController.saveStep3);
+router.post("/upload-docs", protect, shipmentController.uploadDocs);
+router.get("/", protect, shipmentController.getShipments);
+router.get("/stats", protect, shipmentController.getStats);
+router.put("/:id/status", protect, shipmentController.updateStatus);
 
-// actions
-router.put("/status/:id", ctrl.updateStatus);
+// ✅ New API
+router.get("/:id/details", protect, shipmentController.getShipmentDetails);
 
 module.exports = router;

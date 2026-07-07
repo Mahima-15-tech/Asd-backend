@@ -1,27 +1,97 @@
 const mongoose = require("mongoose");
 
 const buyerSchema = new mongoose.Schema({
-  companyName: String,
 
-  location: {
-    country: String,
-    state: String,
-    city: String
+  companyName:{
+    type:String,
+    required:true
   },
 
-  product: String,
+  location:{
+    country:String,
+    state:String,
+    city:String
+  },
 
-  tradeVolume: Number, // USD
+  buyerType:{
+    type:String,
+    enum:[
+      "Importer",
+      "Distributor",
+      "Retailer",
+      "Wholesaler",
+      "E-commerce"
+    ],
+    default:"Importer"
+  },
 
-  orders: Number,
+  products:[
+    String
+  ],
 
-  lastTrade: Date,
+  hsCodes:[
+    String
+  ],
 
-  verified: {
-    type: Boolean,
-    default: false
-  }
+  product:String,
 
-}, { timestamps: true });
+  tradeVolume:{
+    type:Number,
+    default:0
+  },
 
-module.exports = mongoose.model("Buyer", buyerSchema);
+  totalShipments:{
+    type:Number,
+    default:0
+  },
+
+  buyerScore:{
+    type:Number,
+    default:0
+  },
+
+  avgGrowth:{
+    type:Number,
+    default:0
+  },
+
+  orders:{
+    type:Number,
+    default:0
+  },
+
+  status:{
+    type:String,
+    enum:[
+      "Active",
+      "Pending",
+      "Inactive"
+    ],
+    default:"Active"
+  },
+
+  verified:{
+    type:Boolean,
+    default:false
+  },
+
+  email:String,
+
+  phone:String,
+
+  website:String,
+
+  contactPerson:String,
+
+  joinedOn:{
+    type:Date,
+    default:Date.now
+  },
+
+  lastTrade:Date
+
+},{
+  timestamps:true
+});
+
+module.exports=mongoose.model("Buyer",buyerSchema);

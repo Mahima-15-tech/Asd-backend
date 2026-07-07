@@ -1,38 +1,102 @@
 const mongoose = require("mongoose");
 
 const companySchema = new mongoose.Schema({
-  company: String,
-  subtitle: String,
 
-  type: {
-    type: String,
-    enum: ["buyer", "seller"]
-  },
+company:String,
 
-  verified: {
-    type: Boolean,
-    default: false
-  },
+subtitle:String,
 
-  location: {
-    city: String,
-    state: String,
-    country: String
-  },
+type:{
+type:String,
+enum:["buyer","seller"]
+},
 
-  product: String,
+verified:{
+type:Boolean,
+default:false
+},
 
-  tradeFrequency: {
-    type: String,
-    enum: ["high", "medium", "low"]
-  },
+location:{
+city:String,
+state:String,
+country:String
+},
 
-  tradeVolume: Number,
+product:String,
 
-  orders: Number,
+tradeFrequency:{
+type:String,
+enum:["high","medium","low"]
+},
 
-  lastActivity: Date
+tradeVolume:Number,
 
-}, { timestamps: true });
+orders:Number,
 
-module.exports = mongoose.model("Company", companySchema);
+lastActivity:Date,
+
+// ===== Company Intelligence =====
+
+cinNumber:String,
+
+website:String,
+
+industry:String,
+
+businessType:String,
+
+establishedYear:Number,
+
+employees:String,
+
+annualTurnover:{
+type:Number,
+default:0
+},
+
+exportTurnover:{
+type:Number,
+default:0
+},
+
+importTurnover:{
+type:Number,
+default:0
+},
+
+netProfit:{
+type:Number,
+default:0
+},
+
+exportRatio:{
+type:Number,
+default:0
+},
+
+totalShipments:{
+type:Number,
+default:0
+},
+
+avgShipmentValue:{
+type:Number,
+default:0
+},
+
+leadTime:{
+type:Number,
+default:0
+},
+
+products:[
+String
+],
+
+partners:[
+String
+]
+
+},{timestamps:true});
+
+module.exports=mongoose.model("Company",companySchema);

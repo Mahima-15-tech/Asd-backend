@@ -8,7 +8,9 @@ exports.getBuyers = async (req, res) => {
     let query = {};
 
     if (country) query["location.country"] = country;
-    if (product) query.product = product;
+    if (product) {
+      query.products = { $in: [product] };
+    }
 
     const buyers = await Buyer.find(query)
       .skip((page - 1) * limit)

@@ -45,6 +45,24 @@ const hsCodeSchema = new mongoose.Schema({
     clearanceTime: String,
     tradeVolume: String
   },
+
+  chapter: {
+    type: String
+},
+
+heading: {
+  type: String
+},
+subHeading: {
+  type: String
+},
+flow: {
+  type: String,
+  enum: ["Import", "Export", "Both"],
+  default: "Both"
+},
+
+
  
 
   countryRules: [

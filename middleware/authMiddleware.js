@@ -1,28 +1,39 @@
-const jwt = require("jsonwebtoken");
 
+
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 exports.protect = async (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
 
-  if (!token) return res.status(401).json({ msg: "No token" });
+    if (!token) {
+      return res.status(401).json({ msg: "No token" });
+    }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  const user = await User.findById(decoded.id).populate("roleId");
+    const user = await User.findById(decoded.id).populate("roleId");
 
-  req.user = {
-    ...user.toObject(),
-    role: user.roleId.name // 🔥 ensure role always present
-  };
+    if (!user) {
+      return res.status(401).json({ msg: "User not found" });
+    }
 
-  next();
+    req.user = user;
+    req.user.roleName = user.roleId?.name;
+
+    next();
+
+  } catch (err) {
+    return res.status(401).json({
+      msg: "Invalid token",
+      error: err.message
+    });
+  }
 };
 
 exports.adminOnly = (req, res, next) => {
-  console.log("ROLE:", req.user.role); // 🔥
-
-  if (req.user.role !== "admin") {
+  if (req.user.roleName !== "admin") {
     return res.status(403).json({ msg: "Admin only access" });
   }
   next();

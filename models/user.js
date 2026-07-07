@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
 
   phone: String,
 businessType: String,
-plan: String,
+
 expiryDate: Date,
 
   // Auth features
@@ -49,7 +49,77 @@ expiryDate: Date,
     type: String,
     enum: ["active", "inactive"],
     default: "active"
-  }
+  },
+  aiLimit: {
+    type: Number,
+    default: 100
+  },
+  aiUsed: {
+    type: Number,
+    default: 0
+  },
+
+  profileImage: {
+    type: String,
+    default: ""
+},
+
+
+
+designation: String,
+
+
+gstin: String,
+
+country: String,
+
+city: String,
+
+address: String,
+
+accountType: {
+    type: String,
+    default: "Exporter"
+},
+
+plan: {
+    type: String,
+    default: "Free"
+},
+
+accountStatus: {
+    type: String,
+    enum: ["Active","Inactive"],
+    default: "Active"
+},
+
+profileCompletion: {
+    type: Number,
+    default: 0
+},
+
+emailVerified: {
+    type: Boolean,
+    default: false
+},
+
+phoneVerified: {
+    type: Boolean,
+    default: false
+},
+
+gstVerified: {
+    type: Boolean,
+    default: false
+},
+
+twoFactorEnabled: {
+    type: Boolean,
+    default: false
+},
+
+lastLogin: Date,
+planExpiry: Date,
 
 }, { timestamps: true });
 

@@ -2,49 +2,138 @@ const mongoose = require("mongoose");
 
 const vendorSchema = new mongoose.Schema({
 
-  name: {
-    type: String,
-    required: true
-  },
+    vendorName: {
+        type: String,
+        required: true
+    },
 
-  email: {
-    type: String,
-    required: true
-  },
+    companyName: {
+        type: String,
+        required: true
+    },
 
-  type: {
-    type: String,
-    enum: [
-      "Shipping Partner",
-      "Freight Forwarder",   // ✅ add this
-      "Custom Broker",
-      "Warehouse Partner",   // ✅ add this
-      "Logistics",
-      "Other"
+    serviceTypes: [{
+        type: String,
+        enum: [
+            "Freight Forwarder",
+            "Customs Broker",
+            "Transporter",
+            "Warehouse",
+            "Packing & Handling",
+            "Shipping Line",
+            "Air Cargo"
+        ]
+    }],
+
+    location: {
+
+        city: String,
+
+        state: String,
+
+        country: String
+
+    },
+
+    routes: [
+
+        {
+
+            origin: String,
+
+            destination: String
+
+        }
+
     ],
-    default: "Shipping Partner"
-  },
 
-  location: {
-    type: String
-  },
+    transportModes: [{
 
-  rating: {
-    type: Number,
-    default: 0
-  },
+        type: String,
 
-  activeShipments: {
-    type: Number,
-    default: 0
-  },
+        enum: [
 
-  status: {
-    type: String,
-    enum: ["active", "inactive"],
-    default: "active"
-  }
+            "Air",
 
-}, { timestamps: true });
+            "Sea",
 
-module.exports = mongoose.model("Vendor", vendorSchema);
+            "Road"
+
+        ]
+
+    }],
+
+    rating: {
+
+        type: Number,
+
+        default: 0
+
+    },
+
+    totalReviews: {
+
+        type: Number,
+
+        default: 0
+
+    },
+
+    responseTime: String,
+
+    estimatedCost: Number,
+
+    transitTime: String,
+
+    matchScore: {
+
+        type: Number,
+
+        default: 0
+
+    },
+
+    phone: String,
+
+    email: String,
+
+    website: String,
+
+    logo: String,
+
+    description: String,
+
+    verified: {
+
+        type: Boolean,
+
+        default: false
+
+    },
+
+    status: {
+
+        type: String,
+
+        enum: [
+
+            "Active",
+
+            "Inactive"
+
+        ],
+
+        default: "Active"
+
+    }
+
+}, {
+
+    timestamps: true
+
+});
+
+module.exports = mongoose.model(
+    "Vendor",
+    vendorSchema
+);
